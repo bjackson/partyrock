@@ -37,8 +37,8 @@ void processPixels()
     loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
-  for (int y = 1; y < height; y = y + 1) {
-    for (int x = 1; x < width; x = x + 1) {
+  for (int y = 1; y < height; y = y + 2) {
+    for (int x = 1; x < width; x = x + 2) {
       int loc = x + y*width;
       
       // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
@@ -51,9 +51,9 @@ void processPixels()
       
       // Set the display pixel to the image pixel
       pixels[loc] =  color(r,g,b); 
-      ledValues[x][y][1] = int(r);
-      ledValues[x][y][2] = int(g);
-      ledValues[x][y][3] = int(b);
+      ledValues[x][y][0] = int(r);
+      ledValues[x][y][1] = int(g);
+      ledValues[x][y][2] = int(b);
       
 //      if (loc+width < pixels.length) {      
 //        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
@@ -84,9 +84,9 @@ void transmitPixels()
     startTime = millis();
     for (int y = 1; y < height; y = y + 1) {
     for (int x = 1; x < width; x = x + 1) {
+      ardy.write(ledValues[x][y][0]);
       ardy.write(ledValues[x][y][1]);
       ardy.write(ledValues[x][y][2]);
-      ardy.write(ledValues[x][y][3]);
     }}
     duration = millis() - startTime;
     println(duration);
