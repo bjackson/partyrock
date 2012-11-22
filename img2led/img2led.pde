@@ -11,9 +11,9 @@ long lastTime = 0;
 Serial ardy;
 
 void setup() {
-  size(640,480);
+  size(128,128);
   // Make a new instance of a PImage by loading an image file
-  img = loadImage("ieeeskate.jpg");
+  img = loadImage("stop.jpeg");
 
   ardy = new Serial(this, "/dev/tty.usbmodem641", 9600);
   lastTime = millis();
@@ -44,9 +44,9 @@ void draw() {
         pixels[sum] = color(r,g,b);
       }
 
-      println(int(r));
-      println(int(g));
-      println(int(b));
+      println("r"+int(r));
+      println("g"+int(g));
+      println("b"+int(b));
       //delay(50);
       
       ardy.write("r" + int(r));
