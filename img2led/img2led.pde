@@ -8,6 +8,10 @@ int sum;
 int firstRun = 1;
 int iteration = 1;
 long lastTime = 0;
+long startTime;
+long duration;
+// RGB values
+int[][][] ledValues;
 Serial ardy;
 
 void setup() {
@@ -15,7 +19,7 @@ void setup() {
   // Make a new instance of a PImage by loading an image file
   img = loadImage("stop.jpeg");
 
-  ardy = new Serial(this, "/dev/tty.usbmodem641", 9600);
+  ardy = new Serial(this, "/dev/tty.usbmodem641", 57600);
   lastTime = millis();
   transmitPixels();
 }
@@ -33,9 +37,9 @@ void transmitPixels()
     loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
-
-  for (int y = 1; y < height; y = y + 2) {
-    for (int x = 1; x < width; x = x + 2) {
+  startTime = millis();
+  for (int y = 1; y < height; y = y + 1) {
+    for (int x = 1; x < width; x = x + 1) {
       int loc = x + y*width;
       
       // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
@@ -48,25 +52,28 @@ void transmitPixels()
       
       // Set the display pixel to the image pixel
       pixels[loc] =  color(r,g,b); 
-      if (loc+width < pixels.length) {      
-        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
-        pixels[sum] = color(r,g,b);
-      }
+//      if (loc+width < pixels.length) {      
+//        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
+//        pixels[loc] = color(r,g,b);
+//      }
 
 //      println("r"+int(r));
 //      println("g"+int(g));
 //      println("b"+int(b));
       //delay(50);
       
-      ardy.write("r" + int(r));
-      ardy.write("g" + int(g));
-      ardy.write("b" + int(b));
+      
+
+      
+
       //myDelay(1);
 //      if (loc > 1) {
 //      pixels[loc+1] =  color(r,g,b);
 //      }
     }
   }
+  duration = millis() - startTime;
+  println(duration);
 }
 
 
