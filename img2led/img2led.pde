@@ -11,7 +11,7 @@ long lastTime = 0;
 long startTime;
 long duration;
 // RGB values
-int[][][] ledValues;
+int[][][] ledValues = new int[128][128][3];
 Serial ardy;
 
 void setup() {
@@ -32,12 +32,11 @@ void draw() {
     
 }
 
-void transmitPixels()
+void processPixels()
 {
     loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
-  startTime = millis();
   for (int y = 1; y < height; y = y + 1) {
     for (int x = 1; x < width; x = x + 1) {
       int loc = x + y*width;
@@ -52,6 +51,10 @@ void transmitPixels()
       
       // Set the display pixel to the image pixel
       pixels[loc] =  color(r,g,b); 
+      ledValues[x][y][1] = int(r);
+      ledValues[x][y][2] = int(g);
+      ledValues[x][y][3] = int(b);
+      
 //      if (loc+width < pixels.length) {      
 //        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
 //        pixels[loc] = color(r,g,b);
@@ -72,10 +75,22 @@ void transmitPixels()
 //      }
     }
   }
-  duration = millis() - startTime;
-  println(duration);
+  transmitPixels();
+
 }
 
+void transmitPixels()
+{
+    startTime = millis();
+    for (int y = 1; y < height; y = y + 1) {
+    for (int x = 1; x < width; x = x + 1) {
+      ardy.write(ledValues[x][y][1]);
+      ardy.write(ledValues[x][y][2]);
+      ardy.write(ledValues[x][y][3]);
+    }}
+    duration = millis() - startTime;
+    println(duration);
+}
 
 
 void myDelay(int ms)
