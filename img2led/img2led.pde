@@ -11,8 +11,8 @@ void draw() {
   loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
-  for (int y = 0; y < height; y = y + 2) {
-    for (int x = 0; x < width; x = x + 2) {
+  for (int y = 0; y < height; y = y + 4) {
+    for (int x = 0; x < width; x = x + 4) {
       int loc = x + y*width;
       
       // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
@@ -26,13 +26,24 @@ void draw() {
       // Set the display pixel to the image pixel
       pixels[loc] =  color(r,g,b); 
       if (loc+width < pixels.length) {      
-      pixels[loc+width] =  color(r,g,b);
-      pixels[loc+width+1] =  color(r,g,b);
-      }
+        pixels[loc+width] =  color(r,g,b);
+        for (int widthMultiplier = 1; widthMultiplier <  4; widthMultiplier++) {
+          pixels[loc+width*widthMultiplier] =  color(r,g,b);
+          pixels[loc+width*widthMultiplier+1] =  color(r,g,b);
+          pixels[loc+width*widthMultiplier+2] =  color(r,g,b);
+          pixels[loc+width*widthMultiplier+3] =  color(r,g,b);
+          pixels[loc+width*widthMultiplier+4] =  color(r,g,b);
+        }
       pixels[loc+1] =  color(r,g,b);
-      if (loc > 1) {
-      pixels[loc+1] =  color(r,g,b);
+      pixels[loc+2] =  color(r,g,b);
+      pixels[loc+3] =  color(r,g,b);
+      pixels[loc+4] =  color(r,g,b);
       }
+
+      
+//      if (loc > 1) {
+//      pixels[loc+1] =  color(r,g,b);
+//      }
     }
   }
   updatePixels();
