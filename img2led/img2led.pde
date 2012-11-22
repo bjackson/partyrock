@@ -17,11 +17,20 @@ void setup() {
 
   ardy = new Serial(this, "/dev/tty.usbmodem641", 9600);
   lastTime = millis();
-
+  transmitPixels();
 }
 
 void draw() {
   loadPixels(); 
+  // Since we are going to access the image's pixels too  
+  img.loadPixels(); 
+  updatePixels();
+    
+}
+
+void transmitPixels()
+{
+    loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
 
@@ -44,9 +53,9 @@ void draw() {
         pixels[sum] = color(r,g,b);
       }
 
-      println("r"+int(r));
-      println("g"+int(g));
-      println("b"+int(b));
+//      println("r"+int(r));
+//      println("g"+int(g));
+//      println("b"+int(b));
       //delay(50);
       
       ardy.write("r" + int(r));
@@ -58,9 +67,9 @@ void draw() {
 //      }
     }
   }
-  updatePixels();
-    
 }
+
+
 
 void myDelay(int ms)
 {
