@@ -1,17 +1,30 @@
+import processing.serial.*;
+
+
+
 // Declaring a variable of type PImage
 PImage img;  
 int sum;
+int firstRun = 1;
+int iteration = 1;
+long lastTime = 0;
+Serial ardy;
 
 void setup() {
   size(640,480);
   // Make a new instance of a PImage by loading an image file
   img = loadImage("ieeeskate.jpg");
+
+  ardy = new Serial(this, "/dev/tty.usbmodem641", 9600);
+  lastTime = millis();
+
 }
 
 void draw() {
   loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
+
   for (int y = 1; y < height; y = y + 2) {
     for (int x = 1; x < width; x = x + 2) {
       int loc = x + y*width;
@@ -31,11 +44,29 @@ void draw() {
         pixels[sum] = color(r,g,b);
       }
 
+      println(int(r));
+      println(int(g));
+      println(int(b));
+      //delay(50);
       
+      ardy.write("r" + int(r));
+      ardy.write("g" + int(g));
+      ardy.write("b" + int(b));
+      //myDelay(1);
 //      if (loc > 1) {
 //      pixels[loc+1] =  color(r,g,b);
 //      }
     }
   }
   updatePixels();
+    
+}
+
+void myDelay(int ms)
+{
+   try
+  {    
+    Thread.sleep(ms);
+  }
+  catch(Exception e){}
 }
