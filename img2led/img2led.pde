@@ -19,8 +19,9 @@ void setup() {
   // Make a new instance of a PImage by loading an image file
   img = loadImage("stop.jpeg");
 
-  ardy = new Serial(this, "/dev/tty.usbmodem641", 57600);
+  ardy = new Serial(this, "/dev/tty.usbmodem411", 57600);
   lastTime = millis();
+  processPixels();
   transmitPixels();
 }
 
@@ -82,8 +83,8 @@ void processPixels()
 void transmitPixels()
 {
     startTime = millis();
-    for (int y = 1; y < height; y = y + 1) {
-    for (int x = 1; x < width; x = x + 1) {
+    for (int y = 1; y < height; y = y + 2) {
+    for (int x = 1; x < width; x = x + 2) {
       ardy.write(ledValues[x][y][0]);
       ardy.write(ledValues[x][y][1]);
       ardy.write(ledValues[x][y][2]);
