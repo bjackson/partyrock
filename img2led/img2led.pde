@@ -65,14 +65,14 @@ void processPixels()
       ledValues[x][y][1] = int(g);
       ledValues[x][y][2] = int(b);
       if (loc+2 < pixels.length) {
-        ledValues[x+2][y][0] = int(r);
-        ledValues[x+2][y][1] = int(g);
-        ledValues[x+2][y][2] = int(b);
+        ledValues[x+2][y][0] = int(rr);
+        ledValues[x+2][y][1] = int(gg);
+        ledValues[x+2][y][2] = int(bb);
       }
       byteledValues[x][y][0] = byte(floor(ledValues[x][y][0]/2^31)/8 << 4 + floor(ledValues[x+1][y][0]/2^31)/8);
       byteledValues[x][y][1] = byte(floor(ledValues[x][y][1]/2^31)/8 << 4 + floor(ledValues[x+1][y][1]/2^31)/8);
       byteledValues[x][y][2] = byte(floor(ledValues[x][y][2]/2^31)/8 << 4 + floor(ledValues[x+1][y][2]/2^31)/8);
-      
+      println(byte(byte(floor(ledValues[x][y][0]/2^31)/8 << 4) + byte(floor(ledValues[x+1][y][0]/2^31)/8)));
 //      if (loc+width < pixels.length) {      
 //        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
 //        pixels[loc] = color(r,g,b);
@@ -102,9 +102,9 @@ void transmitPixels()
     startTime = millis();
     for (int y = 1; y < height; y = y + 4) {
     for (int x = 1; x < width; x = x + 4) {
-      ardy.write(byteledValues[x][y][0]);
-      ardy.write(byteledValues[x][y][1]);
-      ardy.write(byteledValues[x][y][2]);
+      //ardy.write(byteledValues[x][y][0]);
+      //ardy.write(byteledValues[x][y][1]);
+      //println(byteledValues[x][y][2]);
     }}
     duration = millis() - startTime;
     println(duration);
