@@ -12,6 +12,7 @@ long startTime;
 long duration;
 // RGB values
 int[][][] ledValues = new int[128][128][3];
+byte[][][] byteledValues = new byte[128][128][3];
 Serial ardy;
 
 void setup() {
@@ -55,6 +56,9 @@ void processPixels()
       ledValues[x][y][0] = int(r);
       ledValues[x][y][1] = int(g);
       ledValues[x][y][2] = int(b);
+      byteledValues[x][y][0] = byte(floor(ledValues[x][y][0]/2^31));
+      byteledValues[x][y][1] = byte(floor(ledValues[x][y][1]/2^31));
+      byteledValues[x][y][2] = byte(floor(ledValues[x][y][2]/2^31));
       
 //      if (loc+width < pixels.length) {      
 //        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
@@ -85,9 +89,9 @@ void transmitPixels()
     startTime = millis();
     for (int y = 1; y < height; y = y + 2) {
     for (int x = 1; x < width; x = x + 2) {
-      ardy.write(ledValues[x][y][0]);
-      ardy.write(ledValues[x][y][1]);
-      ardy.write(ledValues[x][y][2]);
+      //ardy.write(ledValues[x][y][0]);
+      //ardy.write(ledValues[x][y][1]);
+      println(byteledValues[x][y][2]);
     }}
     duration = millis() - startTime;
     println(duration);
