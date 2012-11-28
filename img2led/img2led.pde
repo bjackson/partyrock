@@ -118,7 +118,7 @@ void transmitPixels()
       //ardy.write(byteledValues[x][y][1]);
       //ardy.write(byteledValues[x][y][2]);
     }}
-    println(byteledValues);
+    ardy.write(byteledValues);
     duration = millis() - startTime;
     println(duration);
 }
