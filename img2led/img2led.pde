@@ -11,17 +11,17 @@ long lastTime = 0;
 long startTime;
 long duration;
 // RGB values
-int[][][] ledValues = new int[128][128][3];
-byte[][][] byteledValues = new byte[128][128][3];
+int[] ledValues = new int[300];
+byte[] byteledValues = new byte[300];
 Serial ardy;
 
 void setup() {
-  size(128,128);
+  size(10,10);
   // Make a new instance of a PImage by loading an image file
-  img = loadImage("cat.jpeg");
+  img = loadImage("cat10x10.jpeg");
 
-  ardy = new Serial(this, "/dev/tty.usbmodem411", 57600);
-  lastTime = millis();
+  ardy = new Serial(this, "/dev/tty.usbmodem411", 921600);
+  //lastTime = millis();
   processPixels();
   transmitPixels();
 }
@@ -39,40 +39,56 @@ void processPixels()
     loadPixels(); 
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
-  for (int y = 1; y < height; y = y + 4) {
-    for (int x = 1; x < width; x = x + 4) {
-      int loc = x + y*width;
-      
+  for (int y = 1; y < 10; y = y + 1) {
+    for (int x = 1; x < 10; x = x + 1) {
+      int loc = (x + y*10)*3;
+      float r = 0;
+      float g = 0;
+      float b = 0;
       // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
-      float r = red(img.pixels[loc]);
-      float g = green(img.pixels[loc]);
-      float b = blue(img.pixels[loc]);
-      
-      float rr = red(img.pixels[loc+2]);
-      float gg = green(img.pixels[loc+2]);
-      float bb = blue(img.pixels[loc+2]);
-      
+      if (loc < 100) {
+        r = red(img.pixels[loc]);
+        g = green(img.pixels[loc]);
+        b = blue(img.pixels[loc]);
+      }
+      float rr, gg, bb;
+      rr = 101;
+      gg = 101;
+      bb = 101;
+      if (loc+2 <= 100)
+      { 
+        rr = red(img.pixels[loc+2]);
+        gg = green(img.pixels[loc+2]);
+        bb = blue(img.pixels[loc+2]);
+      }
       
       // Image Processing would go here
       // If we were to change the RGB values, we would do it here, before setting the pixel in the display window.
       
       // Set the display pixel to the image pixel
+      if (loc < 100) {
       pixels[loc] =  color(r,g,b);
-      if (loc+2 < pixels.length) {
-      pixels[loc+2] =  color(rr,gg,bb);
       }
-      ledValues[x][y][0] = int(r);
-      ledValues[x][y][1] = int(g);
-      ledValues[x][y][2] = int(b);
-      if (loc+2 < pixels.length) {
-        ledValues[x+2][y][0] = int(rr);
-        ledValues[x+2][y][1] = int(gg);
-        ledValues[x+2][y][2] = int(bb);
+      if (loc+2 <= 100) 
+      {
+        pixels[loc+2] =  color(rr,gg,bb);
       }
-      byteledValues[x][y][0] = byte(floor(ledValues[x][y][0]/2^31)/8 << 4 + floor(ledValues[x+1][y][0]/2^31)/8);
-      byteledValues[x][y][1] = byte(floor(ledValues[x][y][1]/2^31)/8 << 4 + floor(ledValues[x+1][y][1]/2^31)/8);
-      byteledValues[x][y][2] = byte(floor(ledValues[x][y][2]/2^31)/8 << 4 + floor(ledValues[x+1][y][2]/2^31)/8);
-      println(byte(byte(floor(ledValues[x][y][0]/2^31)/8 << 4) + byte(floor(ledValues[x+1][y][0]/2^31)/8)));
+      ledValues[loc] = int(r);
+      ledValues[loc+1] = int(g);
+      ledValues[loc+2] = int(b);
+      if (loc+1 < 10) {
+        ledValues[loc+2] = int(rr);
+        ledValues[loc+1+2] = int(gg);
+        ledValues[loc+2+2] = int(bb);
+      
+      byteledValues[loc] = byte(floor(ledValues[loc]/2^31)/8 << 4 + floor(ledValues[loc+1]/2^31)/8);
+      byteledValues[loc+1] = byte(floor(ledValues[loc+1]/2^31)/8 << 4 + floor(ledValues[loc+1+1]/2^31)/8);
+      byteledValues[loc+2] = byte(floor(ledValues[loc+2]/2^31)/8 << 4 + floor(ledValues[loc+2+1]/2^31)/8);
+      }
+      byteledValues[loc] = byte(floor(ledValues[loc]/2^31)/8 << 4);
+      byteledValues[loc+1] = byte(floor(ledValues[loc+1]/2^31)/8 << 4);
+      byteledValues[loc+2] = byte(floor(ledValues[loc+2]/2^31)/8 << 4);
+      //println(byte(byte(floor(ledValues[x][y][0]/2^31)/8 << 4) + byte(floor(ledValues[x+1][y][0]/2^31)/8)));
 //      if (loc+width < pixels.length) {      
 //        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
 //        pixels[loc] = color(r,g,b);
@@ -100,12 +116,13 @@ void processPixels()
 void transmitPixels()
 {
     startTime = millis();
-    for (int y = 1; y < height; y = y + 4) {
-    for (int x = 1; x < width; x = x + 4) {
+    for (int y = 1; y < 10; y = y + 1) {
+    for (int x = 1; x < 10; x = x + 1) {
       //ardy.write(byteledValues[x][y][0]);
       //ardy.write(byteledValues[x][y][1]);
-      //println(byteledValues[x][y][2]);
+      //ardy.write(byteledValues[x][y][2]);
     }}
+    println(byteledValues);
     duration = millis() - startTime;
     println(duration);
 }
