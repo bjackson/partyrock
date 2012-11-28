@@ -80,14 +80,10 @@ void processPixels()
         ledValues[loc+2] = int(rr);
         ledValues[loc+1+2] = int(gg);
         ledValues[loc+2+2] = int(bb);
-      
-      byteledValues[loc] = byte(floor(ledValues[loc]/2^31)/8 << 4 + floor(ledValues[loc+1]/2^31)/8);
-      byteledValues[loc+1] = byte(floor(ledValues[loc+1]/2^31)/8 << 4 + floor(ledValues[loc+1+1]/2^31)/8);
-      byteledValues[loc+2] = byte(floor(ledValues[loc+2]/2^31)/8 << 4 + floor(ledValues[loc+2+1]/2^31)/8);
       }
-      byteledValues[loc] = byte(floor(ledValues[loc]/2^31)/8 << 4);
-      byteledValues[loc+1] = byte(floor(ledValues[loc+1]/2^31)/8 << 4);
-      byteledValues[loc+2] = byte(floor(ledValues[loc+2]/2^31)/8 << 4);
+      byteledValues[loc] = byte(round(ledValues[loc]/2^31)/8);
+      byteledValues[loc+1] = byte(round(ledValues[loc+1]/2^31)/8);
+      byteledValues[loc+2] = byte(round(ledValues[loc+2]/2^31)/8);
       //println(byte(byte(floor(ledValues[x][y][0]/2^31)/8 << 4) + byte(floor(ledValues[x+1][y][0]/2^31)/8)));
 //      if (loc+width < pixels.length) {      
 //        sum = pixels[loc]*(1/8) + pixels[loc+1]*(1/9) + pixels[loc-1]*(1/9) + pixels[loc+width]*(1/9) + pixels[loc+width+1]*(1/9) + pixels[loc+width-1]*(1/9) + pixels[loc-width]*(1/9) + pixels[loc-width+1]*(1/9) + pixels[loc-width-1]*(1/9);
