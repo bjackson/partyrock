@@ -20,7 +20,7 @@ void setup() {
   // Make a new instance of a PImage by loading an image file
   img = loadImage("cat10x10.jpeg");
 
-  ardy = new Serial(this, "/dev/tty.usbmodem411", 921600);
+  ardy = new Serial(this, "/dev/tty.usbmodem411", 235400);
   //lastTime = millis();
   processPixels();
   transmitPixels();
