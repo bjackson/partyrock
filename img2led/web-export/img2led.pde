@@ -1,6 +1,7 @@
 import processing.serial.*;
 
 
+
 // Declaring a variable of type PImage
 PImage img;  
 int sum;
@@ -15,16 +16,7 @@ byte[] byteledValues = new byte[300];
 Serial ardy;
 
 void setup() {
-  size(200,200);
-  grid = new Cell[cols][rows];
-  for (int i = 0; i < cols; i++) {
-    for (int j = 0; j < rows; j++) {
-      // Initialize each object
-      grid[i][j] = new Cell(i*20,j*20,20,20,i+j,cellColor);
-      cellColor = cellColor + 6;
-    }
-    //cellColor = cellColor 0;
-  }
+  size(10,10);
   // Make a new instance of a PImage by loading an image file
   img = loadImage("cat10x10.jpeg");
 
@@ -39,18 +31,7 @@ void draw() {
   // Since we are going to access the image's pixels too  
   img.loadPixels(); 
   updatePixels();
-  background(0);
-  // The counter variables i and j are also the column and row numbers and 
-  // are used as arguments to the constructor for each object in the grid.  
-  for (int i = 0; i < cols; i++) {
-    for (int j = 0; j < rows; j++) {
-      // Oscillate and display each object
-      grid[i][j].oscillate();
-      //grid[i][j].pond();
-      grid[i][j].display();
-      
-    }
-  } 
+    
 }
 
 void processPixels()
@@ -152,3 +133,4 @@ void myDelay(int ms)
   }
   catch(Exception e){}
 }
+
