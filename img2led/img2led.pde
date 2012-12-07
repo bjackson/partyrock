@@ -9,22 +9,44 @@ int iteration = 1;
 long lastTime = 0;
 long startTime;
 long duration;
+List gridList = new ArrayList();
+int[] gridArray;
 // RGB values
 int[] ledValues = new int[300];
 byte[] byteledValues = new byte[300];
 Serial ardy;
 
 void setup() {
-  size(200,200);
+  size(400,400);
   grid = new Cell[cols][rows];
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
       // Initialize each object
-      grid[i][j] = new Cell(i*20,j*20,20,20,i+j,cellColor);
+      grid[i][j] = new Cell(i*50,j*50,50,50,i+j,cellColor);
       cellColor = cellColor + 6;
     }
     //cellColor = cellColor 0;
   }
+    for (int i = 0; i < cols; i++) {
+    for (int j = 0; j < rows; j++) {
+      // Oscillate and display each object
+      grid[i][j].oscillate();
+      //grid[i][j].pond();
+      grid[i][j].display();
+      
+    }
+  } 
+  
+  for(int i=0; i < cols; i++) {
+    for(int j=0; j < rows; j++) {
+        gridList.add((grid[i][j]).redValue());
+        gridList.add((grid[i][j]).greenValue());
+        gridList.add((grid[i][j]).blueValue());
+    }
+  }
+
+  //gridArray = toIntArray(grid);
+
   // Make a new instance of a PImage by loading an image file
   img = loadImage("cat10x10.jpeg");
 
@@ -138,7 +160,8 @@ void transmitPixels()
       //ardy.write(byteledValues[x][y][2]);
     }}
     //ardy.write(byteledValues);
-    println(byteledValues);
+    //println(byteledValues);
+    print(gridList);
     duration = millis() - startTime;
     println(duration);
 }
@@ -152,3 +175,7 @@ void myDelay(int ms)
   }
   catch(Exception e){}
 }
+
+
+
+
