@@ -10,7 +10,8 @@ long lastTime = 0;
 long startTime;
 long duration;
 List gridList = new ArrayList();
-int[] gridArray;
+int[] gridArray = new int[192];
+byte[] gridByteArray = new byte[192];
 // RGB values
 int[] ledValues = new int[300];
 byte[] byteledValues = new byte[300];
@@ -39,18 +40,32 @@ void setup() {
   
   for(int i=0; i < cols; i++) {
     for(int j=0; j < rows; j++) {
-        gridList.add((grid[i][j]).redValue());
-        gridList.add((grid[i][j]).greenValue());
-        gridList.add((grid[i][j]).blueValue());
+        gridList.add(min((grid[i][j]).redValue(), 255));
+        gridList.add(min((grid[i][j]).greenValue(), 255));
+        gridList.add(min((grid[i][j]).blueValue(), 255));
+    }
+  }
+  
+    for(int i=0; i < cols; i++) {
+    for(int j=0; j < rows; j++) {
+        gridList.add(min((grid[i][j]).redValue(), 255));
+        gridList.add(min((grid[i][j]).greenValue(), 255));
+        gridList.add(min((grid[i][j]).blueValue(), 255));
     }
   }
 
+  gridArray = toIntArray(gridList);
+  for(int i=0; i < rows*cols; i++)
+  {
+    gridByteArray[i] = byte(gridArray[i]);
+  }
+  
   //gridArray = toIntArray(grid);
 
   // Make a new instance of a PImage by loading an image file
   img = loadImage("cat10x10.jpeg");
 
-  ardy = new Serial(this, "/dev/tty.usbmodem411", 235400);
+  ardy = new Serial(this, "/dev/tty.usbmodem411", 115200);
   //lastTime = millis();
   processPixels();
   transmitPixels();
@@ -160,8 +175,8 @@ void transmitPixels()
       //ardy.write(byteledValues[x][y][2]);
     }}
     //ardy.write(byteledValues);
-    //println(byteledValues);
-    print(gridList);
+    //println(gridArray);
+    ardy.write(gridByteArray);
     duration = millis() - startTime;
     println(duration);
 }
@@ -176,6 +191,13 @@ void myDelay(int ms)
   catch(Exception e){}
 }
 
+static int[] toIntArray(List<Integer> integerList) {
+  int[] intArray = new int[integerList.size()];
+  for (int i = 0; i < integerList.size(); i++) {
+    intArray[i] = int(integerList.get(i));
+  }
+    return intArray;
+}
 
 
 

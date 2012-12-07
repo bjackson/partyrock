@@ -20,7 +20,7 @@ class Cell {
     cellColor = tempColor;
   } 
   
-  float redValue() {
+  int redValue() {
     r = cellColor*random(1,1.4);
     if (r >= 255) {
       colorDirection = 0;
@@ -33,10 +33,10 @@ class Cell {
     } else if (colorDirection == 0) {
       r = cellColor*.909;
     }
-    return r;
+    return int(r);
   }
   
-  float greenValue() {
+  int greenValue() {
     g = cellColor*random(1,1.4);
     if (cellColor >= 255) {
       colorDirection = 0;
@@ -49,10 +49,10 @@ class Cell {
     } else if (colorDirection == 0) {
       cellColor = cellColor*.909;
     }
-    return g;
+    return int(g);
   }
   
-  float blueValue() {
+  int blueValue() {
     b = cellColor*random(1,1.4);
     if (cellColor >= 255) {
       colorDirection = 0;
@@ -65,7 +65,7 @@ class Cell {
     } else if (colorDirection == 0) {
       b = cellColor*.909;
     }
-    return b;
+    return int(b);
   }
   
   // Oscillation means increase angle
