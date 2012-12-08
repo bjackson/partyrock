@@ -199,6 +199,7 @@ void transmitPixels()
     }}
     //ardy.write(byteledValues);
     println(gridByteArray);
+    gridList.clear();
     //ardy.write(gridByteArray);
     duration = millis() - startTime;
     println(duration);
