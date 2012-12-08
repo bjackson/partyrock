@@ -36,7 +36,7 @@ void setup() {
       grid[i][j].display();
       
     }
-  } 
+  }  
   
   for(int i=0; i < cols; i++) {
     for(int j=0; j < rows; j++) {
@@ -46,16 +46,16 @@ void setup() {
     }
   }
   
-    for(int i=0; i < cols; i++) {
-    for(int j=0; j < rows; j++) {
-        gridList.add(min((grid[i][j]).redValue(), 255));
-        gridList.add(min((grid[i][j]).greenValue(), 255));
-        gridList.add(min((grid[i][j]).blueValue(), 255));
-    }
-  }
+//    for(int i=0; i < cols; i++) {
+//    for(int j=0; j < rows; j++) {
+//        gridList.add(min((grid[i][j]).redValue(), 255));
+//        gridList.add(min((grid[i][j]).greenValue(), 255));
+//        gridList.add(min((grid[i][j]).blueValue(), 255));
+//    }
+//  }
 
   gridArray = toIntArray(gridList);
-  for(int i=0; i < rows*cols; i++)
+  for(int i=0; i < gridArray.length; i++)
   {
     gridByteArray[i] = byte(gridArray[i]);
   }
@@ -87,7 +87,30 @@ void draw() {
       grid[i][j].display();
       
     }
-  } 
+  }
+  
+    for(int i=0; i < cols; i++) {
+    for(int j=0; j < rows; j++) {
+        gridList.add(min((grid[i][j]).redValue(), 255));
+        gridList.add(min((grid[i][j]).greenValue(), 255));
+        gridList.add(min((grid[i][j]).blueValue(), 255));
+    }
+  }
+  
+//    for(int i=0; i < cols; i++) {
+//    for(int j=0; j < rows; j++) {
+//        gridList.add(min((grid[i][j]).redValue(), 255));
+//        gridList.add(min((grid[i][j]).greenValue(), 255));
+//        gridList.add(min((grid[i][j]).blueValue(), 255));
+//    }
+//  }
+
+  gridArray = toIntArray(gridList);
+  for(int i=0; i < 191; i++)
+  {
+    gridByteArray[i] = byte(gridArray[i]);
+  }
+ transmitPixels(); 
 }
 
 void processPixels()
@@ -175,8 +198,8 @@ void transmitPixels()
       //ardy.write(byteledValues[x][y][2]);
     }}
     //ardy.write(byteledValues);
-    //println(gridArray);
-    ardy.write(gridByteArray);
+    println(gridByteArray);
+    //ardy.write(gridByteArray);
     duration = millis() - startTime;
     println(duration);
 }

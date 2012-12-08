@@ -22,48 +22,66 @@ class Cell {
   
   int redValue() {
     r = cellColor*random(1,1.4);
+    cellColor = cellColor*1.101;
     if (r >= 255) {
       colorDirection = 0;
-    } if (cellColor <= 2) {
+    } if (r <= 25) {
       colorDirection = 1;
+      cellColor = 25*random(1,7);
     }
     
     if (colorDirection == 1) {
       r = cellColor*random(1,1.4);
+      cellColor = cellColor*1.07;
+      cellColor++;
     } else if (colorDirection == 0) {
       r = cellColor*.909;
+      cellColor = cellColor*.909;
+      cellColor--;
     }
     return int(r);
   }
   
   int greenValue() {
     g = cellColor*random(1,1.4);
-    if (cellColor >= 255) {
+    cellColor = cellColor*1.101;
+    if (g >= 255) {
       colorDirection = 0;
-    } if (cellColor <= 2) {
+    } if (g <= 25) {
       colorDirection = 1;
+      cellColor = 25*random(1,7);
     }
     
     if (colorDirection == 1) {
       g = cellColor*random(1,1.4);
+      cellColor = cellColor*1.07;
+      cellColor++;
     } else if (colorDirection == 0) {
+      g = cellColor*.909;
       cellColor = cellColor*.909;
+      cellColor--;
     }
     return int(g);
   }
   
-  int blueValue() {
+    int blueValue() {
     b = cellColor*random(1,1.4);
-    if (cellColor >= 255) {
+    cellColor = cellColor*1.101;
+    if (b >= 255) {
       colorDirection = 0;
-    } if (cellColor <= 2) {
+    } if (b <= 25) {
       colorDirection = 1;
+      cellColor = 25*random(1,7);
     }
     
     if (colorDirection == 1) {
-      b = cellColor*1.01;
+      b = cellColor*random(1,1.4);
+      cellColor = cellColor*1.07;
+      cellColor++;
     } else if (colorDirection == 0) {
       b = cellColor*.909;
+      cellColor = cellColor*.909;
+      cellColor--;
     }
     return int(b);
   }
