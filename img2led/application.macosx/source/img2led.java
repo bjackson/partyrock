@@ -3,6 +3,7 @@ import processing.data.*;
 import processing.opengl.*; 
 
 import processing.serial.*; 
+import java.awt.TextField; 
 
 import java.applet.*; 
 import java.awt.Dimension; 
@@ -23,6 +24,7 @@ public class img2led extends PApplet {
 
 
 
+
 // Declaring a variable of type PImage
 PImage img;  
 int sum;
@@ -39,8 +41,10 @@ int[] ledValues = new int[300];
 byte[] byteledValues = new byte[300];
 Serial ardy;
 
+TextField serialAddress = new TextField("/dev/tty.usbmodem411", 15);
+
 public void setup() {
-  size(400,400);
+  size(400,600);
   grid = new Cell[cols][rows];
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
@@ -58,7 +62,7 @@ public void setup() {
       grid[i][j].display();
       
     }
-  } 
+  }  
   
   for(int i=0; i < cols; i++) {
     for(int j=0; j < rows; j++) {
@@ -68,16 +72,16 @@ public void setup() {
     }
   }
   
-    for(int i=0; i < cols; i++) {
-    for(int j=0; j < rows; j++) {
-        gridList.add(min((grid[i][j]).redValue(), 255));
-        gridList.add(min((grid[i][j]).greenValue(), 255));
-        gridList.add(min((grid[i][j]).blueValue(), 255));
-    }
-  }
+//    for(int i=0; i < cols; i++) {
+//    for(int j=0; j < rows; j++) {
+//        gridList.add(min((grid[i][j]).redValue(), 255));
+//        gridList.add(min((grid[i][j]).greenValue(), 255));
+//        gridList.add(min((grid[i][j]).blueValue(), 255));
+//    }
+//  }
 
   gridArray = toIntArray(gridList);
-  for(int i=0; i < rows*cols; i++)
+  for(int i=0; i < gridArray.length; i++)
   {
     gridByteArray[i] = PApplet.parseByte(gridArray[i]);
   }
@@ -109,7 +113,30 @@ public void draw() {
       grid[i][j].display();
       
     }
-  } 
+  }
+  
+    for(int i=0; i < cols; i++) {
+    for(int j=0; j < rows; j++) {
+        gridList.add(min((grid[i][j]).redValue(), 255));
+        gridList.add(min((grid[i][j]).greenValue(), 255));
+        gridList.add(min((grid[i][j]).blueValue(), 255));
+    }
+  }
+  
+//    for(int i=0; i < cols; i++) {
+//    for(int j=0; j < rows; j++) {
+//        gridList.add(min((grid[i][j]).redValue(), 255));
+//        gridList.add(min((grid[i][j]).greenValue(), 255));
+//        gridList.add(min((grid[i][j]).blueValue(), 255));
+//    }
+//  }
+
+  gridArray = toIntArray(gridList);
+  for(int i=0; i < 191; i++)
+  {
+    gridByteArray[i] = PApplet.parseByte(gridArray[i]);
+  }
+ transmitPixels(); 
 }
 
 public void processPixels()
@@ -197,8 +224,9 @@ public void transmitPixels()
       //ardy.write(byteledValues[x][y][2]);
     }}
     //ardy.write(byteledValues);
-    //println(gridArray);
+    //println(gridByteArray);
     ardy.write(gridByteArray);
+    gridList.clear();
     duration = millis() - startTime;
     println(duration);
 }
@@ -257,48 +285,66 @@ class Cell {
   
   public int redValue() {
     r = cellColor*random(1,1.4f);
+    cellColor = cellColor*1.101f;
     if (r >= 255) {
       colorDirection = 0;
-    } if (cellColor <= 2) {
+    } if (r <= 25) {
       colorDirection = 1;
+      cellColor = 25*random(1,7);
     }
     
     if (colorDirection == 1) {
       r = cellColor*random(1,1.4f);
+      cellColor = cellColor*1.07f;
+      cellColor++;
     } else if (colorDirection == 0) {
       r = cellColor*.909f;
+      cellColor = cellColor*.909f;
+      cellColor--;
     }
     return PApplet.parseInt(r);
   }
   
   public int greenValue() {
     g = cellColor*random(1,1.4f);
-    if (cellColor >= 255) {
+    cellColor = cellColor*1.101f;
+    if (g >= 255) {
       colorDirection = 0;
-    } if (cellColor <= 2) {
+    } if (g <= 25) {
       colorDirection = 1;
+      cellColor = 25*random(1,7);
     }
     
     if (colorDirection == 1) {
       g = cellColor*random(1,1.4f);
+      cellColor = cellColor*1.07f;
+      cellColor++;
     } else if (colorDirection == 0) {
+      g = cellColor*.909f;
       cellColor = cellColor*.909f;
+      cellColor--;
     }
     return PApplet.parseInt(g);
   }
   
-  public int blueValue() {
+    public int blueValue() {
     b = cellColor*random(1,1.4f);
-    if (cellColor >= 255) {
+    cellColor = cellColor*1.101f;
+    if (b >= 255) {
       colorDirection = 0;
-    } if (cellColor <= 2) {
+    } if (b <= 25) {
       colorDirection = 1;
+      cellColor = 25*random(1,7);
     }
     
     if (colorDirection == 1) {
-      b = cellColor*1.01f;
+      b = cellColor*random(1,1.4f);
+      cellColor = cellColor*1.07f;
+      cellColor++;
     } else if (colorDirection == 0) {
       b = cellColor*.909f;
+      cellColor = cellColor*.909f;
+      cellColor--;
     }
     return PApplet.parseInt(b);
   }

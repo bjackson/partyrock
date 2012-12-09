@@ -1,4 +1,5 @@
 import processing.serial.*;
+import java.awt.TextField;
 
 
 // Declaring a variable of type PImage
@@ -17,8 +18,10 @@ int[] ledValues = new int[300];
 byte[] byteledValues = new byte[300];
 Serial ardy;
 
+TextField serialAddress = new TextField("/dev/tty.usbmodem411", 15);
+
 void setup() {
-  size(400,400);
+  size(400,600);
   grid = new Cell[cols][rows];
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
@@ -36,7 +39,7 @@ void setup() {
       grid[i][j].display();
       
     }
-  } 
+  }  
   
   for(int i=0; i < cols; i++) {
     for(int j=0; j < rows; j++) {
@@ -46,16 +49,16 @@ void setup() {
     }
   }
   
-    for(int i=0; i < cols; i++) {
-    for(int j=0; j < rows; j++) {
-        gridList.add(min((grid[i][j]).redValue(), 255));
-        gridList.add(min((grid[i][j]).greenValue(), 255));
-        gridList.add(min((grid[i][j]).blueValue(), 255));
-    }
-  }
+//    for(int i=0; i < cols; i++) {
+//    for(int j=0; j < rows; j++) {
+//        gridList.add(min((grid[i][j]).redValue(), 255));
+//        gridList.add(min((grid[i][j]).greenValue(), 255));
+//        gridList.add(min((grid[i][j]).blueValue(), 255));
+//    }
+//  }
 
   gridArray = toIntArray(gridList);
-  for(int i=0; i < rows*cols; i++)
+  for(int i=0; i < gridArray.length; i++)
   {
     gridByteArray[i] = byte(gridArray[i]);
   }
@@ -87,7 +90,30 @@ void draw() {
       grid[i][j].display();
       
     }
-  } 
+  }
+  
+    for(int i=0; i < cols; i++) {
+    for(int j=0; j < rows; j++) {
+        gridList.add(min((grid[i][j]).redValue(), 255));
+        gridList.add(min((grid[i][j]).greenValue(), 255));
+        gridList.add(min((grid[i][j]).blueValue(), 255));
+    }
+  }
+  
+//    for(int i=0; i < cols; i++) {
+//    for(int j=0; j < rows; j++) {
+//        gridList.add(min((grid[i][j]).redValue(), 255));
+//        gridList.add(min((grid[i][j]).greenValue(), 255));
+//        gridList.add(min((grid[i][j]).blueValue(), 255));
+//    }
+//  }
+
+  gridArray = toIntArray(gridList);
+  for(int i=0; i < 191; i++)
+  {
+    gridByteArray[i] = byte(gridArray[i]);
+  }
+ transmitPixels(); 
 }
 
 void processPixels()
@@ -175,8 +201,9 @@ void transmitPixels()
       //ardy.write(byteledValues[x][y][2]);
     }}
     //ardy.write(byteledValues);
-    //println(gridArray);
+    //println(gridByteArray);
     ardy.write(gridByteArray);
+    gridList.clear();
     duration = millis() - startTime;
     println(duration);
 }

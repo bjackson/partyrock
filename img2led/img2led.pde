@@ -21,7 +21,7 @@ Serial ardy;
 TextField serialAddress = new TextField("/dev/tty.usbmodem411", 15);
 
 void setup() {
-  size(400,600);
+  size(400,400);
   grid = new Cell[cols][rows];
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {
@@ -113,7 +113,9 @@ void draw() {
   {
     gridByteArray[i] = byte(gridArray[i]);
   }
- transmitPixels(); 
+ transmitPixels();
+ byte inByte = byte(ardy.read());
+ println(inByte); 
 }
 
 void processPixels()
@@ -202,10 +204,11 @@ void transmitPixels()
     }}
     //ardy.write(byteledValues);
     println(gridByteArray);
-    gridList.clear();
     //ardy.write(gridByteArray);
+    gridList.clear();
+    
     duration = millis() - startTime;
-    println(duration);
+    //println(duration);
 }
 
 

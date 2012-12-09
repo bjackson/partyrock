@@ -39,7 +39,7 @@ class Cell {
       cellColor = cellColor*.909;
       cellColor--;
     }
-    return int(r);
+    return int(max(r, 100));
   }
   
   int greenValue() {
@@ -61,7 +61,7 @@ class Cell {
       cellColor = cellColor*.909;
       cellColor--;
     }
-    return int(g);
+    return int(max(g, 100));
   }
   
     int blueValue() {
@@ -83,12 +83,12 @@ class Cell {
       cellColor = cellColor*.909;
       cellColor--;
     }
-    return int(b);
+    return int(max(b,100));
   }
   
   // Oscillation means increase angle
   void oscillate() {
-    angle += 0.05;
+    angle += 0.1;
     cellColor = cellColor*1.101;
     if (cellColor >= 255) {
       colorDirection = 0;
@@ -115,9 +115,9 @@ class Cell {
     stroke(255);
     // Color calculated using sine wave
     if (cellColor == 0)
-    r = cellColor*random(1,1.1);
-    g = cellColor*random(1,1.1);
-    b = cellColor*random(1,1.1);
+    r = max(cellColor*random(1,1.5),150);
+    g = max(cellColor*random(1,1.5),150);
+    b = max(cellColor*random(1,1.5),150);
     
 //    if (r >= 240) {
 //      r = r/2;
