@@ -1,4 +1,5 @@
 import processing.serial.*;
+import java.awt.TextField;
 
 
 // Declaring a variable of type PImage
@@ -17,8 +18,10 @@ int[] ledValues = new int[300];
 byte[] byteledValues = new byte[300];
 Serial ardy;
 
+TextField serialAddress = new TextField("/dev/tty.usbmodem411", 15);
+
 void setup() {
-  size(400,400);
+  size(400,600);
   grid = new Cell[cols][rows];
   for (int i = 0; i < cols; i++) {
     for (int j = 0; j < rows; j++) {

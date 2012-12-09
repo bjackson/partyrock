@@ -3,3 +3,6 @@
 This repository currently contains:
 * the Processing sketch for image to LED translation.
 * a readme.
+
+## img2led
+* Be sure to set right serial port before use.
